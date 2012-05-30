@@ -56,6 +56,7 @@ public class NodeDelegate {
             // block that wants to be configured
             def childClosure = args[0]
             childClosure.delegate = new NodeDelegate(targetNode)
+            childClosure.resolveStrategy = Closure.DELEGATE_FIRST
             childClosure.call(targetNode)
         } else {
             // Default to setting direct value
