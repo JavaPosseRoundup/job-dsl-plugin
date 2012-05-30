@@ -4,11 +4,11 @@ import spock.lang.*
 import groovy.xml.MarkupBuilder
 
 class NodeDelegateTest extends Specification {
-    
+
     def "mutate config using configure block"() {
         setup:
         Node projectNode = new XmlParser().parse(new StringReader(minimalXml))
-        
+
         when: NodeDelegate nd = new NodeDelegate(projectNode)
         then: noExceptionThrown()
 
@@ -19,7 +19,25 @@ class NodeDelegateTest extends Specification {
         Node projectNode = new XmlParser().parse(new StringReader(minimalXml))
         NodeDelegate nd = new NodeDelegate(projectNode)
 
-        when: 
+        when:
+        nd.with { //configure block
+            builders {
+                'hudson.tasks.Ant' {
+                    name 'test'
+                }
+            }
+        }
+
+        then:
+        projectNode.builders.'hudson.tasks.Ant'.name.text() == 'test'
+    }
+
+    def "mutate nested node using configure block"() {
+        setup:
+        Node projectNode = new XmlParser().parse(new StringReader(minimalXml))
+        NodeDelegate nd = new NodeDelegate(projectNode)
+
+        when:
         nd.with { //configure block
             jdk ='JDK 6'
         }
@@ -56,7 +74,7 @@ class NodeDelegateTest extends Specification {
             description = 'Another description'
         }
     }
-    def minimalXml = 
+    def minimalXml =
 '''<project>
     <actions/>
     <description></description>
