@@ -345,7 +345,6 @@ class PublisherContext extends AbstractExtensibleContext {
                         if (!jobManagement.getPluginVersion('htmlpublisher')?.isOlderThan(new VersionNumber('1.4'))) {
                             alwaysLinkToLastBuild(target.alwaysLinkToLastBuild)
                         }
-                        wrapperName('htmlpublisher-wrapper.html')
                     }
                 }
             }
