@@ -22,6 +22,9 @@ class JacocoContext extends AbstractContext {
     String maximumLineCoverage = '0'
     String maximumMethodCoverage = '0'
     String maximumClassCoverage = '0'
+    String sourceInclusionPattern = '**/*.java'
+    String sourceExclusionPattern = ''
+    Boolean skipCopyOfSrcFiles = false
     Boolean changeBuildStatus = null
 
     protected JacocoContext(JobManagement jobManagement) {
@@ -148,7 +151,29 @@ class JacocoContext extends AbstractContext {
     }
 
     /**
-     * If set, changes the build status according to the thresholds. Defaults to {@code false}.
+     * Allows to include certain source files. Defaults to {@code '**&#47;*.java'}.
+     */
+    void sourceInclusionPattern(String sourceInclusionPattern) {
+      this.sourceInclusionPattern = sourceInclusionPattern
+    }
+
+    /**
+     * Allows to exclude certain source files. Defaults to {@code ''}.
+     */
+    void sourceExclusionPattern(String sourceExclusionPattern) {
+      this.sourceExclusionPattern = sourceExclusionPattern
+    }
+
+    /**
+     * If set, disables display of source files for coverage. Defaults to {@code false}.
+     */
+
+    void skipCopyOfSrcFiles(Boolean skipCopyOfSrcFiles = false) {
+      this.skipCopyOfSrcFiles = skipCopyOfSrcFiles
+    }
+
+    /**
+     * If set, changes the build status according to the thresholds. Defaults to {@code true}.
      */
     @RequiresPlugin(id = 'jacoco', minimumVersion = '1.0.13')
     void changeBuildStatus(boolean change = true) {
